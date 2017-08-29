@@ -1,9 +1,8 @@
 class LanguageDataController < ApplicationController
-  def index
-  end
+  def index; end
 
   def search
-    result = Data::SearchOrganizer.call(search_params)
+    result = LanguageData::SearchOrganizer.call(search_params)
     render json: result.response
   end
 

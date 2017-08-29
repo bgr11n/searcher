@@ -32,10 +32,17 @@ module LanguageData
       tokens = []
 
       tokens += element['Name'].split(' ').map(&:downcase)
-      tokens += element['Type'].split(', ').map(&:downcase)
-      tokens += element['Designed by'].split(', ').map(&:downcase)
+      tokens += smart_tokenizer(element['Type'])
+      tokens += smart_tokenizer(element['Designed by'])
 
       tokens.uniq
+    end
+
+    def smart_tokenizer(data)
+      data.to_s.split(', ').tap do |tokens|
+        tokens.map!(&:downcase)
+        tokens << tokens.map { |t| t.scan(/\w+/) }
+      end.flatten
     end
   end
 end
